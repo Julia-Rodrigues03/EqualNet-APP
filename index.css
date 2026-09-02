@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "leaflet/dist/leaflet.css";
+@import 'tailwindcss';
+
+html,
+body,
+#root {
+  height: 100%;
+  font-family: 'Outfit', sans-serif;
+  background: #090D14;
+  color: #F8FAFC;
+}
+
+:root {
+  --bg: #090D14;
+  --bg-card: rgba(18, 26, 43, 0.7);
+  --bg-elevated: rgba(30, 41, 59, 0.8);
+  --red: #FF3B5C;
+  --red-bright: #FF2A4D;
+  --blue: #1E2952;
+  --blue-bright: #2d3f7a;
+  --cyan: #00F5D4;
+  --cyan-dark: #00D2B4;
+  --text: #F8FAFC;
+  --muted: #94A3B8;
+  --muted-dark: #64748B;
+  --border: rgba(255,255,255,0.08);
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar { width: 0; height: 0; }
+scrollbar-width: none;
+
+/* Leaflet Customizations for Dark Mode & UI */
+.leaflet-container {
+  font-family: 'Outfit', sans-serif;
+  background: #202124 !important; /* Maps dark background */
+}
+
+/* Darken standard OSM tiles slightly for better contrast */
+.tile-standard {
+  filter: brightness(0.9) contrast(1.2) invert(1) hue-rotate(180deg) saturate(0.8);
+}
+
+.leaflet-popup-content-wrapper {
+  background: #202124;
+  color: #e8eaf0;
+  border: 1px solid #3c4043;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  padding: 0;
+}
+
+.leaflet-popup-content {
+  margin: 12px 14px;
+}
+
+.leaflet-popup-tip {
+  background: #202124;
+  border: 1px solid #3c4043;
+}
+
+.leaflet-popup-close-button {
+  color: #9ca3af !important;
+}
+
+/* Hide default zoom controls as we will use custom ones */
+.leaflet-control-zoom {
+  display: none !important;
+}
+
+.custom-leaflet-pin {
+  background: transparent;
+  border: none;
+  
+}

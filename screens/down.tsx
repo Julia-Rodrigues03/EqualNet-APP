@@ -4,17 +4,17 @@ import { Text, View, TouchableOpacity, ScrollView, TextInput, Image, StatusBar }
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from '../styles.ts';
 
-type Tab = "console" | "mapa" | "metricas" | "rank" | "perfil";
-type Screen = "auth" | "app";
-type AuthMode = "welcome" | "login" | "register";
+type Tab = "console" | "mapa" | "metricas" | "down" | "perfil"; // Define os tipos de abas disponíveis no aplicativo
+type Screen = "auth" | "app"; // Define os tipos de telas disponíveis no aplicativo
+type AuthMode = "welcome" | "login" | "register"; // Define os modos de autenticação disponíveis na tela de login
 
 
 
 
-// ───────────────────────────── Tela 4: Rank/down ───────────────────────────────
+// ───────────────────────────── Tela 4:down ───────────────────────────────
 // Houve  mudança esse tela será substituida por tela de DOWN que é  uma tela que mostrará o status dos servidores mostrando se estão online ou offline, tendo um grafico  em frente ao nome da empresa  para estavel utilizaremos azul e instavel utilizaremos laranja e para critico utilizaremos o vermelho  
 // ───────────────────────────────────────────────────────────────────────────────
-export function RankScreen() {
+export function DownScreen() {
     const comunidades = [
     { pos: 1, nome: "Tatuapé", status: "Estável", score: 92.5, color: "#00C8B4" },
     { pos: 2, nome: "Itaquera", status: "Estável", score: 88.0, color: "#00C8B4" },

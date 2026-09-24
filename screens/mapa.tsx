@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, TextInput, Image, StatusBar } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { styles } from '../styles.ts';
+import React from 'react';
+import { Text, StyleSheet, View } from 'react-native'; //importa os componentes básicos do React Native
+import { SafeAreaView } from 'react-native-safe-area-context'; //importa o SafeAreaView para proteger o conteúdo da tela
+import { styles as globalStyles } from '../styles.ts'; // Importa os estilos globais do arquivo styles.ts
+import MapViewComponent from './MapViewComponent'; //importa o componente do mapa
 
-
-type Tab = "console" | "mapa" | "metricas" | "rank" | "perfil";
-type Screen = "auth" | "app";
-type AuthMode = "welcome" | "login" | "register";
-
-// ─── Tela 2: Mapa (Versão com Imagem Estática Provisorio ) ───────────────────────────────
 export function MapScreen() {
-    return (
-    <View style={styles.mapContainer}>
-    <Text style={styles.title}>Mapa Geográfico</Text>
-    <Text style={styles.subtitle}>Mapeamento de nós na região zona leste.</Text>
+return (
+    // SafeAreaView protege o conteúdo da tela de sobreposição com a barra de status e outros elementos do sistema
+    <SafeAreaView style={[globalStyles.container, localStyles.safeArea]} edges={['top']}>
+    <Text style={localStyles.title}>Mapa de Monitoramento</Text>
 
-      {/* Container da Imagem */}
-    <View style={styles.imageWrapper}>
-        <Image
-source={{ uri: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1000&auto=format&fit=crop' }} 
-style={styles.staticMapImage}
-resizeMode="cover"
-/>
-        <View style={styles.mapOverlayBadge}>
-        <Text style={styles.mapOverlayText}>📍 MODO ESTÁTICO / SIMULAÇÃO</Text>
-        </View>
+      {/* Caixa que limita o tamanho e arredonda as bordas do mapa */}
+    <View style={localStyles.mapContainer}>
+        <MapViewComponent />
     </View>
-    </View>
+    </SafeAreaView>
 );
 }
+// Estilos locais específicos para a tela do mapa
+const localStyles = StyleSheet.create({
+safeArea: {
+    flex: 1,
+    backgroundColor: '#050810',
+},
+title: {
+    color: '#00F5D4',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 12,
+},
+mapContainer: {
+    flex: 1,
+    marginHorizontal: 16,     // Deixa margem nas laterais
+    marginBottom: 20,         // Afasta da barra inferior
+    borderRadius: 20,         // Cantos arredondados
+    overflow: 'hidden',       // Recorta o WebView dentro da borda
+    borderWidth: 1,           // Borda sutil estilo glassmorphism
+    borderColor: 'rgba(0, 245, 212, 0.3)',
+},
+});

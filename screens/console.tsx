@@ -3,9 +3,9 @@ import { Text, View, TouchableOpacity, ScrollView, TextInput, Image, StatusBar }
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from '../styles.ts';
 
-type Tab = "console" | "mapa" | "metricas" | "rank" | "perfil";
-type Screen = "auth" | "app";
-type AuthMode = "welcome" | "login" | "register";
+type Tab = "console" | "mapa" | "metricas" | "rank" | "perfil"; // Define os tipos de abas disponíveis no aplicativo
+type Screen = "auth" | "app"; // Define os tipos de telas disponíveis no aplicativo
+type AuthMode = "welcome" | "login" | "register"; // Define os modos de autenticação disponíveis na tela de login
 
 
 // ─── Tela 1: Console ─────────────────────────────────────────────────────────

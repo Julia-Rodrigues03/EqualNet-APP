@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, ScrollView, TextInput, Image, StatusBar }
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from '../styles.ts';
 
-type Tab = "console" | "mapa" | "metricas" | "rank" | "perfil";
+type Tab = "console" | "mapa" | "metricas" | "down" | "perfil";
 type Screen = "auth" | "app";
 type AuthMode = "welcome" | "login" | "register";
 

@@ -436,4 +436,181 @@ navLabel: {
     fontSize: 10,
     marginTop: 4,
 },
+// ─── Tela Down: Teste de Velocidade ──────────────────────────────────────────
+
+downStatus: {
+    fontFamily: "monospace",
+    fontSize: 10,
+    color: "#00F5D4",
+    letterSpacing: 1.5,
+    textAlign: "center",
+    marginBottom: 16,
+},
+
+downGauge: {
+    width: 240,
+    height: 240,
+    borderRadius: 120,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0D1220",
+    borderWidth: 2,
+    borderColor: "rgba(255,255,255,0.07)",
+},
+
+downGaugeRing: {
+    position: "absolute",
+    top: 14,
+    left: 14,
+    right: 14,
+    bottom: 14,
+    borderRadius: 106,
+    borderWidth: 8,
+    borderColor: "rgba(0,245,212,0.06)",
+},
+
+downRotWrap: {
+    // ocupa exatamente a área interna do mostrador, para que o giro
+    // aconteça em torno do centro do velocímetro
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+},
+
+downTick: {
+    position: "absolute",
+    top: 16,
+    width: 2,
+    height: 10,
+    borderRadius: 1,
+    backgroundColor: "rgba(255,255,255,0.18)",
+},
+
+downTickMajor: {
+    width: 3,
+    height: 16,
+    backgroundColor: "rgba(255,255,255,0.35)",
+},
+
+downNeedle: {
+    // a ponta fica no topo e a base termina no centro do mostrador (28 + 90 = 118)
+    position: "absolute",
+    top: 28,
+    width: 4,
+    height: 90,
+    borderRadius: 2,
+    backgroundColor: "#00F5D4",
+    shadowColor: "#00F5D4",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.6,
+    shadowRadius: 8,
+},
+
+downHub: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: "#00F5D4",
+    borderWidth: 3,
+    borderColor: "#0D1220",
+},
+
+downGaugeReadout: {
+    position: "absolute",
+    bottom: 38,
+    alignItems: "center",
+},
+
+downGaugeValue: {
+    fontSize: 42,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+},
+
+downGaugeUnit: {
+    fontSize: 10,
+    color: "#94A3B8",
+    letterSpacing: 2,
+    marginTop: 2,
+},
+
+downProgressTrack: {
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "rgba(255,255,255,0.07)",
+    overflow: "hidden",
+    marginTop: 24,
+},
+
+downProgressFill: {
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#00F5D4",
+},
+
+downProgressLabel: {
+    fontSize: 10,
+    color: "#6B7280",
+    fontFamily: "monospace",
+    textAlign: "right",
+    marginTop: 6,
+},
+
+downStatsRow: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 16,
+    marginBottom: 20,
+},
+
+downStatCard: {
+    flex: 1,
+    backgroundColor: "#0D1220",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.07)",
+    borderRadius: 16,
+    padding: 16,
+    alignItems: "center",
+},
+
+downStatLabel: {
+    fontSize: 10,
+    color: "#94A3B8",
+    letterSpacing: 1,
+    marginBottom: 8,
+},
+
+downStatValue: {
+    fontSize: 26,
+    fontWeight: "bold",
+},
+
+downStatUnit: {
+    fontSize: 10,
+    color: "#6B7280",
+    marginTop: 2,
+},
+
+downButtonDisabled: {
+    opacity: 0.45,
+},
+
+downTimestamp: {
+    fontSize: 11,
+    color: "#64748B",
+    textAlign: "center",
+    marginTop: 12,
+},
+
+downSectionTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#FFFFFF",
+    marginTop: 28,
+    marginBottom: 12,
+},
 });

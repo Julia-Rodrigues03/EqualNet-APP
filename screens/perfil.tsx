@@ -11,7 +11,6 @@ import { Ionicons } from "@expo/vector-icons";
 export function PerfilScreen() {
   return (
     <View style={styles.container}>
-
       <StatusBar barStyle="light-content" backgroundColor="#07111F" />
 
       <View style={styles.overlay} />

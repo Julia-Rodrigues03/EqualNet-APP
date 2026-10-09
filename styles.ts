@@ -80,10 +80,32 @@ primaryButton: {
     shadowRadius: 12,
 },
 
+primaryButtonDisabled: {
+    backgroundColor: '#1E293B',
+    shadowOpacity: 0,
+},
+
 primaryButtonText: {
     color: '#090D14',
     fontSize: 16,
     fontWeight: 'bold',
+},
+
+primaryButtonTextDisabled: {
+    color: '#94A3B8',
+},
+
+authErrorText: {
+    width: '100%',
+    backgroundColor: 'rgba(192, 19, 46, 0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(192, 19, 46, 0.35)',
+    borderRadius: 12,
+    color: '#FCA5A5',
+    fontSize: 13,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 8,
 },
 
 secondaryButton: {

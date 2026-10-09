@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  ImageBackground,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -11,11 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export function PerfilScreen() {
   return (
-    <ImageBackground
-      source={require("../assets/equalnet_bg.png")}
-      resizeMode="cover"
-      style={styles.container}
-    >
+    <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#07111F" />
 
       <View style={styles.overlay} />
@@ -157,7 +152,7 @@ export function PerfilScreen() {
           EQUALNET â€¢ CONECTANDO COMUNIDADES
         </Text>
       </ScrollView>
-    </ImageBackground>
+    </View>
   );
 }
 

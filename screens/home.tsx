@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, TextInput, Image, StatusBar } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { styles } from '../styles.ts';
 
-type Tab = "console" | "mapa" | "metricas" | "down" | "perfil";
-type Screen = "auth" | "app";
 type AuthMode = "welcome" | "login" | "register";
 
 // ─── Tela de inicio Login ou Cadastro ───────────────────────────────────────

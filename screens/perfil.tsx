@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  ImageBackground,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -11,11 +10,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 export function PerfilScreen() {
   return (
-    <ImageBackground
-      source={require("../assets/equalnet_bg.png")}
-      resizeMode="cover"
-      style={styles.container}
-    >
+    <View style={styles.container}>
+
       <StatusBar barStyle="light-content" backgroundColor="#07111F" />
 
       <View style={styles.overlay} />
@@ -45,11 +41,11 @@ export function PerfilScreen() {
           </View>
 
           <Text style={styles.profileName}>Julia Rodrigues</Text>
-          <Text style={styles.profileRole}>AGENTE COMUNITÃRIA â€¢ PO</Text>
+          <Text style={styles.profileRole}>AGENTE COMUNITÁRIA • PO</Text>
 
           <View style={styles.regionRow}>
             <Ionicons name="location-outline" size={15} color="#B9D7E7" />
-            <Text style={styles.regionText}>Zona Leste â€¢ Linha 11</Text>
+            <Text style={styles.regionText}>Zona Leste • Linha 11</Text>
           </View>
 
           <View style={styles.agentBadge}>
@@ -65,9 +61,9 @@ export function PerfilScreen() {
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             <View>
-              <Text style={styles.cardTitle}>ESTATÃSTICAS DE IMPACTO</Text>
+              <Text style={styles.cardTitle}>ESTATÍSTICAS DE IMPACTO</Text>
               <Text style={styles.cardSubtitle}>
-                AtuaÃ§Ã£o na rede comunitÃ¡ria
+                Atuação na rede comunitária
               </Text>
             </View>
 
@@ -79,7 +75,7 @@ export function PerfilScreen() {
           <View style={styles.statsRow}>
             <View style={styles.statBox}>
               <Text style={styles.greenValue}>142</Text>
-              <Text style={styles.statLabel}>NÃ³s Ativos</Text>
+              <Text style={styles.statLabel}>Nós Ativos</Text>
             </View>
 
             <View style={styles.verticalDivider} />
@@ -96,7 +92,7 @@ export function PerfilScreen() {
             <View>
               <Text style={styles.cardTitle}>MONITORAMENTO DA REDE</Text>
               <Text style={styles.cardSubtitle}>
-                DiagnÃ³stico comunitÃ¡rio
+                Diagnóstico comunitário
               </Text>
             </View>
 
@@ -104,7 +100,7 @@ export function PerfilScreen() {
           </View>
 
           <View style={styles.metricRow}>
-            <Text style={styles.metricName}>LatÃªncia e ping</Text>
+            <Text style={styles.metricName}>Latência e ping</Text>
             <Text style={styles.metricStatus}>MONITORADO</Text>
           </View>
 
@@ -128,36 +124,36 @@ export function PerfilScreen() {
             <Text style={styles.impactTitle}>Impacto EqualNet</Text>
             <Text style={styles.impactText}>
               Monitorando conectividade e contribuindo para uma infraestrutura
-              digital mais igualitÃ¡ria.
+              digital mais igualitária.
             </Text>
           </View>
         </View>
 
         <Text style={styles.sectionLabel}>
-          OBJETIVOS DE DESENVOLVIMENTO SUSTENTÃVEL
+          OBJETIVOS DE DESENVOLVIMENTO SUSTENTÁVEL
         </Text>
 
         <View style={styles.odsRow}>
           <View style={styles.odsCard}>
             <Text style={styles.odsNumber}>ODS 9</Text>
             <Text style={styles.odsText}>
-              IndÃºstria, inovaÃ§Ã£o e infraestrutura
+              Indústria, inovação e infraestrutura
             </Text>
           </View>
 
           <View style={styles.odsCard}>
             <Text style={styles.odsNumber}>ODS 10</Text>
             <Text style={styles.odsText}>
-              ReduÃ§Ã£o das desigualdades
+              Redução das desigualdades
             </Text>
           </View>
         </View>
 
         <Text style={styles.footer}>
-          EQUALNET â€¢ CONECTANDO COMUNIDADES
+          EQUALNET • CONECTANDO COMUNIDADES
         </Text>
       </ScrollView>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -168,7 +164,7 @@ const styles = StyleSheet.create({
   },
 
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(4, 12, 22, 0.46)",
   },
 

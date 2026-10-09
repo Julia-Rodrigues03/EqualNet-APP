@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, TextInput, Image, StatusBar } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Text, View, TouchableOpacity, TextInput } from 'react-native';
 import { styles } from '../styles.ts';
 
-type Tab = "console" | "mapa" | "metricas" | "down" | "perfil";
-type Screen = "auth" | "app";
 type AuthMode = "welcome" | "login" | "register";
+
+const CREDENCIAIS_FIXAS = {
+    email: "admin@equalnet.com",
+    senha: "123456",
+};
 
 // ─── Tela de inicio Login ou Cadastro ───────────────────────────────────────
 export function AuthScreen({ onLoginSuccess }: { onLoginSuccess: () => void }) {
@@ -13,6 +15,68 @@ const [mode, setMode] = useState<AuthMode>("welcome");
 const [email, setEmail] = useState("");
 const [senha, setSenha] = useState("");
 const [nome, setNome] = useState("");
+const [error, setError] = useState("");
+const [isSubmitting, setIsSubmitting] = useState(false);
+
+const limparCampos = () => {
+    setEmail("");
+    setSenha("");
+    setNome("");
+};
+
+const validarFormulario = () => {
+    const emailLimpo = email.trim();
+    const senhaLimpa = senha.trim();
+
+    if (mode === "register" && !nome.trim()) {
+        setError("Informe seu nome completo para continuar.");
+        return false;
+    }
+
+    if (!emailLimpo || !senhaLimpa) {
+        setError("Preencha o e-mail e a senha antes de entrar.");
+        return false;
+    }
+
+    if (!emailLimpo.includes("@") || !emailLimpo.includes(".")) {
+        setError("Insira um e-mail válido.");
+        return false;
+    }
+
+    if (senhaLimpa.length < 6) {
+        setError("A senha precisa ter pelo menos 6 caracteres.");
+        return false;
+    }
+
+    setError("");
+    return true;
+};
+
+const handleSubmit = () => {
+    if (!validarFormulario()) return;
+
+    const emailCorreto = email.trim().toLowerCase() === CREDENCIAIS_FIXAS.email;
+    const senhaCorreta = senha.trim() === CREDENCIAIS_FIXAS.senha;
+
+    if (!emailCorreto || !senhaCorreta) {
+        setError(`Credenciais inválidas. Use ${CREDENCIAIS_FIXAS.email} / ${CREDENCIAIS_FIXAS.senha}`);
+        return;
+    }
+
+    setIsSubmitting(true);
+
+    setTimeout(() => {
+        setIsSubmitting(false);
+        limparCampos();
+        onLoginSuccess();
+    }, 500);
+};
+
+const voltarParaWelcome = () => {
+    setMode("welcome");
+    setError("");
+    limparCampos();
+};
 
     return (
     <View style={styles.centeredScreen}>
@@ -48,7 +112,10 @@ const [nome, setNome] = useState("");
 
             <TouchableOpacity
             style={styles.guestButton}
-            onPress={onLoginSuccess}
+            onPress={() => {
+                setError("");
+                onLoginSuccess();
+            }}
             >
             <Text style={styles.guestButtonText}>Acessar como Convidado</Text>
             </TouchableOpacity>
@@ -57,13 +124,18 @@ const [nome, setNome] = useState("");
 
         {(mode === "login" || mode === "register") && (
         <View style={styles.formContainer}>
+            {error ? <Text style={styles.authErrorText}>{error}</Text> : null}
+
             {mode === "register" && (
             <TextInput
                 style={styles.input}
                 placeholder="Nome Completo"
                 placeholderTextColor="#64748B"
                 value={nome}
-                onChangeText={setNome}
+                onChangeText={(texto) => {
+                    setNome(texto);
+                    if (error) setError("");
+                }}
             />
             )}
             
@@ -74,7 +146,10 @@ const [nome, setNome] = useState("");
             keyboardType="email-address"
             autoCapitalize="none"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(texto) => {
+                setEmail(texto);
+                if (error) setError("");
+            }}
             />
 
             <TextInput
@@ -83,20 +158,28 @@ const [nome, setNome] = useState("");
             placeholderTextColor="#64748B"
             secureTextEntry
             value={senha}
-            onChangeText={setSenha}
+            onChangeText={(texto) => {
+                setSenha(texto);
+                if (error) setError("");
+            }}
             />
 
             <TouchableOpacity
-            style={styles.primaryButton}
-            onPress={onLoginSuccess}
+            style={[styles.primaryButton, isSubmitting && styles.primaryButtonDisabled]}
+            onPress={handleSubmit}
+            disabled={isSubmitting}
             >
-            <Text style={styles.primaryButtonText}>
-                {mode === "login" ? "Entrar no Sistema →" : "Finalizar Cadastro →"}
+            <Text style={[styles.primaryButtonText, isSubmitting && styles.primaryButtonTextDisabled]}>
+                {isSubmitting
+                    ? "Entrando..."
+                    : mode === "login"
+                        ? "Entrar no Sistema →"
+                        : "Finalizar Cadastro →"}
             </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-            onPress={() => setMode("welcome")}
+            onPress={voltarParaWelcome}
             style={{ marginTop: 16 }}
             >
             <Text style={styles.backText}>← Voltar</Text>

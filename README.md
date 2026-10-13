@@ -42,21 +42,21 @@
    ```bash
    git clone [https://github.com/SEU-USUARIO/EqualNet.git](https://github.com/SEU-USUARIO/EqualNet.git)
    cd EqualNet
+Instale as dependências:
 
-   1- Instale as dependências:
 Bash
 npm install
-2. Inicie o servidor de desenvolvimento:
+Inicie o servidor de desenvolvimento:
 
 Bash
 npx expo start -c
-
 💡 Dicas para redes universitárias/corporativas ou iOS:
 
 Redes com firewall/isolamento (Wi-Fi da Faculdade): Se o app não carregar no celular, inicie em modo túnel:
+
+Bash
 npx expo start --tunnel -c
 No iOS (iPhone): Escaneie o QR Code exibido no terminal diretamente usando o aplicativo Câmera nativo do iOS para abrir no Expo Go.
-
 
 👥 Equipe de Desenvolvimento
 Arthur (DEV)

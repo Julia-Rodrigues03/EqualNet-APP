@@ -5,10 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { styles } from '../styles.ts';
 import { simularTesteVelocidadeComProgresso, ResultadoTeste } from '../services/speedtest.ts';
 
-type Tab = "console" | "mapa" | "metricas" | "down" | "perfil"; // Define os tipos de abas disponíveis no aplicativo
-type Screen = "auth" | "app"; // Define os tipos de telas disponíveis no aplicativo
-type AuthMode = "welcome" | "login" | "register"; // Define os modos de autenticação disponíveis na tela de login
-
 type EstadoTeste = "ocioso" | "testando" | "concluido"; // Define os estados possíveis do teste de velocidade
 
 // ─── Parâmetros do velocímetro ───────────────────────────────────────────────

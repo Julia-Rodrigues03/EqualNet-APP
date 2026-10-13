@@ -1,5 +1,18 @@
 {
-  "plugins": [
-    "expo-status-bar"
-  ]
+  "expo": {
+    "name": "EqualNet",
+    "slug": "equalnet",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
 }

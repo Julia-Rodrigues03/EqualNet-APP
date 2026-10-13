@@ -8,48 +8,55 @@
 
 ## 📱 Funcionalidades do App
 
-* **Console Digital:** Monitoramento em tempo real de velocidade de download/upload e métricas de rede (Ping, Jitter e Perda de pacotes).
-* **Alerta Preditivo:** Sistema de IA preditiva para antecipar quedas de sinal e congestionamento de nós na Zona Leste.
-* **Mapa Geográfico:** Visualização de estações e pontos de atendimento com simulação interativa.
-* **Métricas Regionais:** Comparativo de confiabilidade e desempenho entre distritos da Linha 11.
-* **Ranking de Igualdade:** Listagem de comunidades ordenadas por seus índices de desempenho digital.
-* **Perfil do Agente:** Painel do usuário com gerenciamento de estatísticas e metas ODS.
+- **Console Digital:** Monitoramento em tempo real de métricas de rede (Download, Upload, Ping, Jitter e Perda de Pacotes).
+- **Mapa de Calor (Heatmap) Interativo:** Visualização geoespacial das áreas com sinal crítico, instabilidade moderada e conexão estável via Leaflet e Leaflet.heat.
+- **Integração com API Preditiva:** Consumo de dados e classificações em tempo real (`GOOD`, `MODERATE`, `UNSTABLE`) da **Internet Quality API** baseada em dados RIPE Atlas e modelos de Machine Learning.
+- **Alerta Preditivo:** Sistema para antecipar quedas de sinal e instabilidade regional.
+- **Métricas Regionais:** Comparativo de confiabilidade e desempenho entre distritos.
+- **Ranking de Igualdade:** Listagem de comunidades ordenadas por seus índices de desempenho digital.
+- **Perfil do Agente:** Painel do usuário com gerenciamento de estatísticas e metas ODS.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **React Native** & **Expo** (Framework Mobile)
-* **TypeScript** (Tipagem estática)
-* **Expo Vector Icons** (Biblioteca de ícones)
+- **React Native** & **Expo** (Framework Mobile)
+- **TypeScript** (Tipagem estática)
+- **React Native WebView** (Renderização webview segura no app)
+- **Leaflet.js & Leaflet.heat** (Renderização do mapa OpenStreetMap e camada de calor)
+- **Internet Quality API** (Backend preditivo em FastAPI/Render consumindo dados do RIPE Atlas)
+- **Expo Vector Icons** (Biblioteca de ícones)
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
-Siga os passos abaixo para rodar o aplicativo no seu computador e celular:
-
 ### Pré-requisitos
-* Ter o [Node.js](https://nodejs.org/) instalado (versão LTS recomendada).
-* Instalar o aplicativo **Expo Go** no seu celular (disponível na Google Play Store e App Store).
+- **Node.js**: Versão LTS `>= 20.19.4` (necessária para compatibilidade com Expo SDK 54).
+- **npm** instalado.
+- Aplicativo **Expo Go** instalado no smartphone ([Android](https://play.google.com/store/apps/details?id=host.exp.exponent) | [iOS](https://apps.apple.com/app/expo-go/id982107779)).
 
-### Passo a passo
+### Passo a Passo
 
-1. Clone o repositório ou baixe a pasta do projeto:
+1. **Clone o repositório:**
    ```bash
    git clone [https://github.com/SEU-USUARIO/EqualNet.git](https://github.com/SEU-USUARIO/EqualNet.git)
    cd EqualNet
 
-   2.Instale as dependências (módulos JS):
+   1- Instale as dependências:
 Bash
 npm install
-
-3.Inicie o servidor de desenvolvimento do Expo:
+2. Inicie o servidor de desenvolvimento:
 
 Bash
 npx expo start -c
 
-Escaneie o QR Code gerado no terminal usando o aplicativo Expo Go no seu celular para abrir o aplicativo.
+💡 Dicas para redes universitárias/corporativas ou iOS:
+
+Redes com firewall/isolamento (Wi-Fi da Faculdade): Se o app não carregar no celular, inicie em modo túnel:
+npx expo start --tunnel -c
+No iOS (iPhone): Escaneie o QR Code exibido no terminal diretamente usando o aplicativo Câmera nativo do iOS para abrir no Expo Go.
+
 
 👥 Equipe de Desenvolvimento
 Arthur (DEV)

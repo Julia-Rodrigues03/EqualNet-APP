@@ -4,7 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'; //importa o S
 import { Ionicons } from '@expo/vector-icons'; //importa os ícones do Ionicons para usar na barra de navegação
 import { styles } from './styles'; //importa os estilos globais do aplicativo
 
-type Tab = "console" | "mapa" | "metricas" | "down" | "perfil"; // Define os tipos de abas disponíveis no aplicativo
+type Tab = "console" | "atividade" | "mapa" | "metricas" | "down" | "perfil"; // Define os tipos de abas disponíveis no aplicativo
 type Screen = "auth" | "app"; // Define os tipos de telas disponíveis no aplicativo
 type AuthMode = "welcome" | "login" | "register"; // Define os modos de autenticação disponíveis na tela de login
 
@@ -12,6 +12,7 @@ type AuthMode = "welcome" | "login" | "register"; // Define os modos de autentic
 function NavBar({ tab, setTab }: { tab: Tab; setTab: (t: Tab) => void }) {
 const items: { id: Tab; label: string; icon: keyof typeof Ionicons.glyphMap }[] = [
     { id: "console", label: "Console", icon: "speedometer-outline" },
+    { id: "atividade", label: "Atividade", icon: "checkmark-done-outline" },
     { id: "mapa", label: "Mapa", icon: "map-outline" },
     { id: "metricas", label: "Métricas", icon: "bar-chart-outline" },
     { id: "down", label: "Down", icon: "pulse-outline" },
@@ -40,6 +41,7 @@ return (
 // ─── Importações das Telas ───────────────────────────────────────────────────
 import { AuthScreen } from './screens/home';
 import { ConsoleScreen } from './screens/console';
+import { ActivityCheckScreen } from './screens/ActivityCheckScreen';
 import { MapScreen } from './screens/mapa';
 import { MetricasScreen } from './screens/metricas';
 import { DownScreen } from './screens/down';
@@ -65,6 +67,7 @@ return (
           {/* Corpo Dinâmico */}
         <View style={styles.contentContainer}>
             {tab === "console" && <ConsoleScreen />}
+            {tab === "atividade" && <ActivityCheckScreen />}
             {tab === "mapa" && <MapScreen />}
             {tab === "metricas" && <MetricasScreen />}
             {tab === "down" && <DownScreen />}

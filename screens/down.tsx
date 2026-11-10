@@ -3,6 +3,7 @@ import { Text, View, ScrollView, Animated, Easing, ActivityIndicator } from 'rea
 import * as Location from 'expo-location';
 import { styles } from '../styles';
 import { getNearbyQuality, NearbyResponse } from '../services/internetQualityApi';
+import FeedbackToast from '../components/FeedbackToast';
 
 // ─── Parâmetros do velocímetro ───────────────────────────────────────────────
 const VELOCIDADE_MAX = 100;     // fundo de escala do ponteiro (Mbps)
@@ -49,6 +50,7 @@ export function DownScreen() {
     const [previsaoQualidade, setPrevisaoQualidade] = useState<NearbyResponse | null>(null);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState<string | null>(null);
+    const [toastVisivel, setToastVisivel] = useState(false);
 
     const agulha = useRef(new Animated.Value(0)).current;
     const montado = useRef(true);
@@ -63,40 +65,51 @@ export function DownScreen() {
     }
 
     async function carregarTelemetria() {
-        setCarregando(true);
-        setErro(null);
+    setCarregando(true);
+    setErro(null);
+    setToastVisivel(false);
 
-        try {
-            const permissao = await Location.requestForegroundPermissionsAsync();
-            if (!permissao.granted) {
-                throw new Error("Autorize o GPS para consultar as métricas locais de rede.");
-            }
+    try {
+        const permissao = await Location.requestForegroundPermissionsAsync();
 
-            const localizacao = await Location.getCurrentPositionAsync({
-                accuracy: Location.Accuracy.Balanced,
-            });
-
-            const dados = await getNearbyQuality(
-                localizacao.coords.latitude,
-                localizacao.coords.longitude
-            );
-
-            if (!montado.current) return;
-
-            setPrevisaoQualidade(dados);
-
-            // Estima a velocidade com base na pontuação de qualidade (0 a 100)
-            const velocidadeEstimada = (dados.assessment.qualityScore / 100) * VELOCIDADE_MAX;
-            setDownload(velocidadeEstimada);
-            setPing(Math.round(dados.prediction.predictedAvgRttMs));
-            animarAgulha(velocidadeEstimada);
-        } catch (err) {
-            if (!montado.current) return;
-            setErro(err instanceof Error ? err.message : "Erro ao carregar dados da conexão.");
-        } finally {
-            if (montado.current) setCarregando(false);
+        if (!permissao.granted) {
+            throw new Error("Autorize o GPS para consultar as métricas locais de rede.");
         }
+
+        const localizacao = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+        });
+
+        const dados = await getNearbyQuality(
+            localizacao.coords.latitude,
+            localizacao.coords.longitude
+        );
+
+        if (!montado.current) return;
+
+        setPrevisaoQualidade(dados);
+
+        const velocidadeEstimada =
+            (dados.assessment.qualityScore / 100) * VELOCIDADE_MAX;
+
+        setDownload(velocidadeEstimada);
+        setPing(Math.round(dados.prediction.predictedAvgRttMs));
+        animarAgulha(velocidadeEstimada);
+
+    } catch (err) {
+        if (!montado.current) return;
+
+        const mensagemErro = err instanceof Error
+            ? err.message
+            : "Erro ao carregar dados da conexão.";
+
+        setErro(mensagemErro);
+        setToastVisivel(true);
+
+    } finally {
+        if (montado.current) setCarregando(false);
     }
+}
 
     useEffect(() => {
         montado.current = true;
@@ -115,6 +128,7 @@ export function DownScreen() {
     const corVel = corDaVelocidade(download);
 
     return (
+    <View style={{ flex: 1 }}>
         <ScrollView style={styles.screenContainer} contentContainerStyle={styles.scrollContent}>
             <Text style={styles.title}>Qualidade da Conexão</Text>
             <Text style={styles.downStatus}>
@@ -274,6 +288,14 @@ export function DownScreen() {
                     </View>
                 )}
             </View>
-        </ScrollView>
+                </ScrollView>
+
+        <FeedbackToast
+            visible={toastVisivel}
+            message={erro ?? ''}
+            type="error"
+            onHide={() => setToastVisivel(false)}
+        />
+    </View>
     );
 }

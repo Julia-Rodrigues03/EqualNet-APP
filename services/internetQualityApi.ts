@@ -1,4 +1,5 @@
 
+import { httpRequest } from './httpClient';
 const API_BASE_URL =
   'https://internet-quality-api.onrender.com/api/v1';
 
@@ -54,13 +55,7 @@ export interface TimelineResponse {
 }
 
 async function request<T>(endpoint: string): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`);
-
-  if (!response.ok) {
-    throw new Error(`Erro na API: ${response.status}`);
-  }
-
-  return response.json() as Promise<T>;
+  return httpRequest<T>(`${API_BASE_URL}${endpoint}`);
 }
 
 export async function getNearbyQuality(

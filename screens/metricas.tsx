@@ -97,6 +97,7 @@ const [estadoSelecionado, setEstadoSelecionado] = useState<EstadoMonitorado | nu
 const [timeline, setTimeline] = useState<TimelineItem[]>([]);
 const [carregandoTimeline, setCarregandoTimeline] = useState(false);
 const [modalVisivel, setModalVisivel] = useState(false);
+const [erroTimeline, setErroTimeline] = useState<string | null>(null);
 
     function alternarFavorito(id: number) {
     setFavoritos((prev) =>
@@ -111,42 +112,30 @@ const estadosFiltrados = ESTADOS_MONITORADOS.filter(
 );
 
   // Consulta longitudinal via API ao tocar no estado
+
 async function abrirLinhaDoTempo(estado: EstadoMonitorado) {
     setEstadoSelecionado(estado);
     setModalVisivel(true);
     setCarregandoTimeline(true);
+    setErroTimeline(null);
+    setTimeline([]);
+
     try {
-    const resp = await getProbeTimeline(estado.probeId, 'model-a', 12);
-    if (resp && resp.timeline) {
-        setTimeline(resp.timeline);
-    }
+        const resp = await getProbeTimeline(estado.probeId, 'model-a', 12);
+
+        if (resp && resp.timeline) {
+            setTimeline(resp.timeline);
+        } else {
+            setErroTimeline('Não foi possível obter o histórico da sonda.');
+        }
     } catch (e) {
-      // Fallback de histórico caso o backend esteja com delay
-    setTimeline([
-        {
-        predictionFor: '18:00',
-        predictedAvgRttMs: estado.latencia - 4,
-        predictedPacketLossPct: estado.perdaPacotes,
-        quality: estado.qualidade,
-        qualityScore: 80,
-        },
-        {
-        predictionFor: '19:00',
-        predictedAvgRttMs: estado.latencia + 2,
-        predictedPacketLossPct: estado.perdaPacotes + 0.3,
-        quality: estado.qualidade,
-        qualityScore: 75,
-        },
-        {
-        predictionFor: '20:00',
-        predictedAvgRttMs: estado.latencia,
-        predictedPacketLossPct: estado.perdaPacotes,
-        quality: estado.qualidade,
-        qualityScore: 78,
-        },
-    ]);
+        setErroTimeline(
+            e instanceof Error
+                ? e.message
+                : 'Erro ao carregar o histórico da sonda.'
+        );
     } finally {
-    setCarregandoTimeline(false);
+        setCarregandoTimeline(false);
     }
 }
 
@@ -262,43 +251,74 @@ return (
             </View>
 
             {carregandoTimeline ? (
-            <View style={styles.loadingBox}>
-                <ActivityIndicator size="small" color="#00C8B4" />
-                <Text style={styles.loadingText}>Carregando telemetria longitudinal...</Text>
-            </View>
-            ) : (
-            <ScrollView style={{ maxHeight: 320 }}>
-                {timeline.map((ponto, i) => (
-                <View key={i} style={styles.timelineRow}>
-                    <Text style={styles.timelineTime}>
+    <View style={styles.loadingBox}>
+        <ActivityIndicator size="small" color="#00C8B4" />
+        <Text style={styles.loadingText}>
+            Carregando telemetria longitudinal...
+        </Text>
+    </View>
+) : erroTimeline ? (
+    <View style={styles.loadingBox}>
+        <Text style={styles.loadingText}>
+            {erroTimeline}
+        </Text>
+    </View>
+) : timeline.length === 0 ? (
+    <View style={styles.loadingBox}>
+        <Text style={styles.loadingText}>
+            Nenhum registro disponível para esta sonda.
+        </Text>
+    </View>
+) : (
+    <ScrollView style={{ maxHeight: 320 }}>
+        {timeline.map((ponto, i) => (
+            <View key={i} style={styles.timelineRow}>
+                <Text style={styles.timelineTime}>
                     {ponto.predictionFor.includes('T')
-                        ? new Date(ponto.predictionFor).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+                        ? new Date(ponto.predictionFor).toLocaleTimeString('pt-BR', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                        })
                         : ponto.predictionFor}
+                </Text>
+
+                <View style={styles.timelineData}>
+                    <Text style={styles.timelineRtt}>
+                        RTT: {ponto.predictedAvgRttMs.toFixed(1)}ms
                     </Text>
-                    <View style={styles.timelineData}>
-                    <Text style={styles.timelineRtt}>RTT: {ponto.predictedAvgRttMs.toFixed(1)}ms</Text>
-                    <Text style={styles.timelineLoss}>Perda: {ponto.predictedPacketLossPct.toFixed(1)}%</Text>
-                    </View>
-                    <View
+                    <Text style={styles.timelineLoss}>
+                        Perda: {ponto.predictedPacketLossPct.toFixed(1)}%
+                    </Text>
+                </View>
+
+                <View
                     style={[
                         styles.tagBadge,
-                        { backgroundColor: ponto.predictedPacketLossPct > 2 ? '#EF444420' : '#10B98120' },
+                        {
+                            backgroundColor:
+                                ponto.predictedPacketLossPct > 2
+                                    ? '#EF444420'
+                                    : '#10B98120',
+                        },
                     ]}
-                    >
+                >
                     <Text
                         style={{
-                        color: ponto.predictedPacketLossPct > 2 ? '#EF4444' : '#10B981',
-                        fontSize: 10,
-                        fontWeight: '700',
+                            color:
+                                ponto.predictedPacketLossPct > 2
+                                    ? '#EF4444'
+                                    : '#10B981',
+                            fontSize: 10,
+                            fontWeight: '700',
                         }}
                     >
                         {ponto.qualityScore || 80}/100
                     </Text>
-                    </View>
                 </View>
-                ))}
-            </ScrollView>
-            )}
+            </View>
+        ))}
+    </ScrollView>
+)}
         </View>
         </View>
     </Modal>

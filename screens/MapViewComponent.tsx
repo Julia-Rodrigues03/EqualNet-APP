@@ -1,42 +1,49 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { httpRequest } from '../services/httpClient';
 
 export default function MapViewComponent() {
 const [points, setPoints] = useState<[number, number, number][]>([]); // cria um estado para armazenar os pontos de calor
 const [loading, setLoading] = useState<boolean>(true); // cria um estado para controlar o carregamento da tela
+const [error, setError] = useState<string | null>(null);
 const webViewRef = useRef<WebView>(null);
 
 useEffect(() => {
     async function loadData() {
-    try {
-        const response = await fetch('https://internet-quality-api.onrender.com/api/v1/locations'); // chama o endpoint da API
-        if (response.ok) {
-        const data = await response.json();
-        const items = data.items || [];
+        try {
+            const data = await httpRequest<{ items?: any[] }>(
+                'https://internet-quality-api.onrender.com/api/v1/locations'
+            );
 
-          // Mapeia os 10 pontos oficiais da API
-          // Cada ponto é representado como [latitude, longitude, intensidade]
-          // A intensidade é simulada para representar a qualidade do sinal em cada capital
-          // Os 10 pontos oficiais da API são: Brasília, São Paulo, Rio de Janeiro, Belo Horizonte, Porto Alegre, Curitiba, Salvador, Recife, Fortaleza e Manaus
-        const parsedPoints: [number, number, number][] = items.map((item: any, index: number) => {
-            const lat = item.location.latitude;
-            const lon = item.location.longitude;
-            // Varia a intensidade simulando qualidade para cada capital (0.3 a 1.0)
-            const weights = [1.0, 0.7, 0.5, 0.8, 0.6, 0.9, 0.4, 0.3, 0.7, 0.85];
-            const weight = weights[index % weights.length];
+            const items = data.items || [];
 
-            return [lat, lon, weight];
-        });
+            // Mapeia os 10 pontos oficiais da API
+            // Cada ponto é representado como [latitude, longitude, intensidade]
+            // A intensidade é simulada para representar a qualidade do sinal
+            const parsedPoints: [number, number, number][] = items.map((item: any, index: number) => {
+                const lat = item.location.latitude;
+                const lon = item.location.longitude;
 
-        setPoints(parsedPoints);
-        webViewRef.current?.postMessage(JSON.stringify(parsedPoints));
+                const weights = [1.0, 0.7, 0.5, 0.8, 0.6, 0.9, 0.4, 0.3, 0.7, 0.85];
+                const weight = weights[index % weights.length];
+
+                return [lat, lon, weight];
+            });
+
+            setPoints(parsedPoints);
+
+        } catch (err) {
+            console.warn('Erro ao obter dados da API:', err);
+
+setError(
+    err instanceof Error
+        ? err.message
+        : 'Não foi possível carregar os dados do mapa.'
+);
+        } finally {
+            setLoading(false);
         }
-    } catch (err) {
-        console.warn('Erro ao obter dados da API:', err);
-    } finally {
-        setLoading(false);
-    }
     }
 
     loadData();
@@ -133,6 +140,20 @@ const htmlContent = `
 
 return (
     <View style={styles.container}>
+        {loading ? (
+    <View style={styles.feedbackContainer}>
+        <ActivityIndicator size="large" color="#FFFFFF" />
+        <Text style={styles.feedbackText}>
+            Carregando dados do mapa...
+        </Text>
+    </View>
+) : error ? (
+    <View style={styles.feedbackContainer}>
+        <Text style={styles.errorText}>
+            {error}
+        </Text>
+    </View>
+) : (
     <WebView
         ref={webViewRef}
         source={{ html: htmlContent }}
@@ -140,17 +161,37 @@ return (
         javaScriptEnabled={true}
         domStorageEnabled={true}
         originWhitelist={['*']}
+        onLoadEnd={() => {
+            webViewRef.current?.postMessage(JSON.stringify(points));
+        }}
     />
+)}
     </View>
 );
 }
 
 const styles = StyleSheet.create({
-container: {
-    flex: 1,
-    backgroundColor: '#000',
-},
-webview: {
-    flex: 1,
-},
+    container: {
+        flex: 1,
+        backgroundColor: '#000',
+    },
+    webview: {
+        flex: 1,
+    },
+    feedbackContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    feedbackText: {
+        color: '#FFFFFF',
+        marginTop: 12,
+        fontSize: 14,
+    },
+    errorText: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        textAlign: 'center',
+    },
 });
